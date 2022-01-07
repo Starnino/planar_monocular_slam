@@ -40,8 +40,8 @@ function [is_valid,e,Jr,Jl]=projectionErrorAndJacobian(Xr,Xl,z)
   Jwr(1:3,4:6) = inv_R*skew(Xl);
   Jwl = inv_R;
    
-  Jp=[p_cam(3) 0 -p_cam(1)/p_cam(3)^2;
-      0 p_cam(3) -p_cam(2)/p_cam(3)^2];
+  Jp=[1/p_cam(3) 0 -p_cam(1)/p_cam(3)^2;
+      0 1/p_cam(3) -p_cam(2)/p_cam(3)^2];
   
   Jr = Jp*K*Jwr;
   Jl = Jp*K*Jwl;
