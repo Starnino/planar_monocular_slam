@@ -92,7 +92,9 @@ for l = 1:num_landmarks
       % take direction in camera frame
       p_cam = unproj(Z{p}.points(id,:));
       % compute direction toward l in world coordinates
-      dirs(:,end+1) = (Xr*X_cam*[(K^-1*p_cam);1])(1:3);
+      d = K^-1*p_cam;
+      d *= 1/norm(d);
+      dirs(:,end+1) = Xr(1:3,1:3)*X_cam(1:3,1:3)*d;
     endif
   endfor
   
@@ -143,7 +145,7 @@ damping = 1;
 kernel_threshold = 1e3;
 num_iterations = 20;
 [XR,XL,chi_stats,num_inliers,H,b] = total_ls(XR_guess, XL_guess, 
-								                             Zp, projection_associations, 
+								             Zp, projection_associations, 
                                              Zr, pose_associations, 
                                              num_iterations, damping, kernel_threshold);
 

@@ -35,10 +35,11 @@ function [is_valid,e,Jr,Jl]=projectionErrorAndJacobian(Xr,Xl,z)
   e = z_hat - z;
   % jacobian
   inv_R = Xr(1:3,1:3)';
+  inv_R_cam = X_cam(1:3,1:3)';
   Jwr = zeros(3,6);
-  Jwr(1:3,1:3) = -inv_R;
-  Jwr(1:3,4:6) = inv_R*skew(Xl);
-  Jwl = inv_R;
+  Jwr(1:3,1:3) = -inv_R_cam*inv_R;
+  Jwr(1:3,4:6) = inv_R_cam*inv_R*skew(Xl);
+  Jwl = inv_R_cam*inv_R;
    
   Jp=[1/p_cam(3) 0 -p_cam(1)/p_cam(3)^2;
       0 1/p_cam(3) -p_cam(2)/p_cam(3)^2];
